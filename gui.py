@@ -4,7 +4,7 @@ from tkinter import *
 from tkinter.filedialog import askopenfilename
 
 # VERSION, VARIABLES
-ver = 0.1
+ver = 0.3
 
 # FUNCTIONS
 def ResizeWithAspectRatio(image, width=None, height=None, inter=cv2.INTER_AREA):
@@ -34,6 +34,7 @@ def importImage():
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
     # Display the output
+    root.quit
     cv2.imshow('img', ResizeWithAspectRatio(img, height=1000))
     cv2.waitKey(0)
 
@@ -44,7 +45,7 @@ def donothing():
    
 def about():
     filewin = Toplevel(root)
-    button = Button(filewin, text=f"Készítette: Chen Kevin\nVerzió: {ver}", command=importImage)
+    button = Button(filewin, text=f"Készítette: Chen Kevin\nVerzió: {ver}")
     button.pack()
    
 # CREATE WINDOW
@@ -53,20 +54,12 @@ menubar = Menu(root)
 
 # CREATE MENUPOINTS, MENU, FILE
 filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="New", command=donothing)
-filemenu.add_command(label="Open", command=donothing)
-filemenu.add_command(label="Save", command=donothing)
-filemenu.add_command(label="Save as...", command=donothing)
-filemenu.add_command(label="Close", command=donothing)
-
-# MENU, SEPARATOR
-filemenu.add_separator()
+filemenu.add_command(label="Open", command=importImage)
 
 # MENU, HELP
 filemenu.add_command(label="Exit", command=root.quit)
 menubar.add_cascade(label="File", menu=filemenu)
 helpmenu = Menu(menubar, tearoff=0)
-helpmenu.add_command(label="Help Index", command=donothing)
 helpmenu.add_command(label="About...", command=about)
 menubar.add_cascade(label="Help", menu=helpmenu)
 
@@ -83,7 +76,8 @@ frame = Label(
         )
 Button(
     frame,
-    text='Importálás'
+    text='Importálás',
+    command=importImage
     ).grid(row=1,column=0)
 
 # CONFIG, MAINLOOP
